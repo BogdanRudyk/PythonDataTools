@@ -1,9 +1,7 @@
 def file_size(filename):
    with open(filename) as f:
       return len(f.read())
-
 print("Общее количество символов в файле:",file_size('pokemon_full.json'))
-
 
 file = open("pokemon_full.json", "r") 
 data = file.read().replace(" ","")
@@ -23,10 +21,7 @@ data = data.replace('"','')
 number_of_characters = len(data)
 print('Общее количество символов в файле без пробелов и знаков препинания:', number_of_characters)
 
-
-
 word = 'description' 
- 
 inp = open('pokemon_full.json').readlines()
 maxx=0
 c=0
@@ -38,8 +33,6 @@ for i in iter(inp):
          maxx=len(i)
          im = i
          poryadkovy=c
-
-
 k=0
 name = 'name'
 for i in iter(inp):
@@ -52,7 +45,6 @@ for i in iter(inp):
          pokem = pokem.replace(",","")
          pokem = pokem.replace('"','')
          print("Покемон с самым длинным описанием:",pokem)
-
 
 umenia = 'abilities'
 a = []
