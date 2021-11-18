@@ -1,0 +1,81 @@
+import csv
+
+AniGenre = [i for i in input('Какие жанры вас интересуют?\n').split()]
+
+
+AniType = input('Какой формат вас интересует? (DVD, Movie, Music, OVA, TV, Web)\n')
+
+AniEpisodes = input('Каково максимальное количество эпизодов?\n')
+if AniEpisodes != '':
+    AniEpisodes = int(AniEpisodes)
+else:
+    AniEpisodes = 99**9
+
+AniTime = input('Какая максимальная длительность? (количество часов)\n')
+if AniTime != '':
+    AniTime = int(AniTime)
+else:
+    AniTime = 99**9
+
+AniRating = input('Какой минимальный рейтинг?\n')
+if AniRating != '':
+    AniRating = float(AniRating)
+else:
+    AniRating = 0
+
+AniVotes = input('Каково минимальное количество голосов?\n')
+if AniVotes != '':
+    AniVotes = int(AniRating)
+else:
+    AniVotes = 0
+
+AniWarning = [i for i in input('Какой контент будет неприятен/оскорбителен для вас?\n').split()]
+
+
+AniFinished = input('Хотите ли вы завершенное аниме или еще идущее? (True или False)\n')
+
+start_year = input('В каком году аниме началось?\n')
+
+end_year = input('В каком году аниме завершилось?\n')
+
+AniSeason = input('Какой сезон?\n')
+
+StidioAnime = input('Какая студия?\n')
+
+file_anime = open('AnimeList.txt', 'w')
+with open('anime.csv', encoding='utf-8') as csvfile:
+    spamreader = csv.reader(csvfile, delimiter=',')
+
+    for row in spamreader:
+        if row[8] == 'Episodes' or row[8] == 'Unknown':
+            row [8] = 9**9
+        if row[10] == 'Duration' or row[10] == 'Unknown':
+            row[10] = 9**9
+        if row[3] == 'Rating Score' or row[3] == 'Unknown':
+            row[3] = 0
+        if row[4] == 'Number Votes' or row[4] == 'Unknown':
+            row[4] = 0
+        flag_genre = 0
+        if row[5] != 'Tags' and row[5] != 'Unknown':
+            for i in range (len(AniGenre)):
+                if AniGenre[i] in row[5]:
+                    flag_genre = 1
+        flag_warning = 1
+        if row[6] != 'Content warning' and row[6] != 'Unknown':
+            for i in range (len(AniWarning)):
+                if AniWarning[i] in row[6]:
+                    flag_warning = 0
+        if ((float(row[3]) >= AniRating or AniRating == '') and
+            (float(row[4]) >= AniVotes or AniVotes == '') and
+            (flag_genre == 1 or AniGenre == '') and
+            (flag_warning == 1 or AniWarning == '') and
+            (row[7] == AniType or AniType == '') and
+            (int(row[8]) <= AniEpisodes or AniEpisodes == '') and
+            (row[9] == AniFinished or AniFinished == '') and
+            (int(row[10]) <= AniTime or AniTime == '') and
+            (row[11] == start_year or start_year == '') and
+            (row[12] == end_year or end_year == '') and
+            (row[13] == AniSeason or AniSeason == '') and
+                (row[14] == StidioAnime or StidioAnime == '')):
+            file_anime.write(row[1])
+file_anime.close()
